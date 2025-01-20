@@ -1,0 +1,51 @@
+intent: The Factory Design Pattern allows the system to decide which type of database connection to create based on dynamic conditions such as user input, configuration settings, or runtime conditions. The factory method abstracts the logic of creating database objects, allowing the system to switch between different types of databases (e.g., MySQL, PostgreSQL, MongoDB) seamlessly without requiring changes to the client code.
+
+role of classes
+
+Factory:The Factory Class is responsible for creating and returning instances of different database connection classes based on the provided input. It abstracts away the instantiation details, allowing the client to obtain database connections without knowing the specific implementation.
+
+Mysql:MySQL Database Connection: Implements the connect() method to establish a connection with a MySQL database, typically using MySQL JDBC drivers and connection strings specific to MySQL.Implements the disconnect() method to close the MySQL connection, ensuring resources are released properly.
+
+PostGreSql:
+The PostgreSQL Connection Class contains the logic required to establish a connection to a PostgreSQL database. This includes setting up the JDBC driver, configuring the connection string, and managing the connection protocol specific to PostgreSQL.
+
+Sqlite:The SQLite Connection Class contains the logic for establishing a connection to an SQLite database. It handles SQLite-specific configurations, such as the database file path or in-memory database setup.
+
+mssql:The MSSQL Connection Class encapsulates the logic needed to establish a connection with a Microsoft SQL Server (MSSQL) database. This includes setting up the JDBC driver, the database URL, and the authentication method specific to MSSQL.
+
+Database Connection:The DatabaseConnection interface defines the contract for all database connection classes. It enforces the presence of methods like connect() and disconnect() that all concrete classes must implement. This provides a common interface for interacting with any type of database, ensuring uniformity and interchangeability.
+
+
+
+Positive Consequences (Advantages)
+1.Encapsulation of Object Creation:
+  The Factory Pattern encapsulates the logic of object creation, specifically database connections. The client code no longer needs to know the details about how         database connections are instantiated. This is important for code maintainability as the object creation logic is centralized in the factory (DatabaseFactory).
+
+2.Flexibility and Extensibility:
+
+New database types can easily be added to the system by simply adding new concrete connection classes and updating the DatabaseFactory to handle the new types. This makes the system highly extensible.
+
+3.Consistency and Uniform Interface:
+
+All concrete database classes implement the same interface (DatabaseConnection), providing the client code with a consistent interface for interacting with different types of databases. The client doesn’t need to worry about the specifics of the database connection; it can use the same set of methods (connect(), disconnect(), performQuery()).
+
+
+Negative Consequences (Disadvantages)
+
+1.Increased Complexity:
+
+The use of a factory adds some level of indirection. The client code no longer directly instantiates the connection object; instead, it relies on the factory to do so. While this is beneficial for flexibility, it can make the code harder to understand for someone unfamiliar with the design pattern.
+
+2.Potential Overhead in Object Creation:
+
+The factory creates objects each time a connection is needed, and this could potentially lead to overhead in creating connections, especially if a factory is used extensively in large systems with frequent database interactions.
+
+3.Hard-Coding Database Types in the Factory:
+
+In the DatabaseFactory class, the database types (mysql, postgresql, mongodb) may be hard-coded or configured in a simple if-else or switch-case structure. This can lead to tight coupling with the specific database types supported by the system.
+
+
+
+
+
+
